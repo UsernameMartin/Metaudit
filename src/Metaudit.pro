@@ -27,12 +27,16 @@ HEADERS  += fileselection.h \
     genreselection.h \
     inputline.h
 
+RESOURCES += qdarkstyle/style.qrc \
+
 win32:CONFIG(release, debug|release): LIBS += -L"C:\Libraries\taglib\lib" -ltag
 else:win32:CONFIG(debug, debug|release): LIBS += -L"C:\Libraries\taglib\lib" -ltag
-else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -ltag
+else:unix: LIBS += -ltag
 
-INCLUDEPATH += C:/Libraries/taglib/include/taglib
-DEPENDPATH += C:/Libraries/taglib/include/taglib
+win32:INCLUDEPATH += C:/Libraries/taglib/include/taglib
+win32:DEPENDPATH += C:/Libraries/taglib/include/taglib
+unix:INCLUDEPATH += /usr/include/taglib
+unix:DEPENDPATH += /usr/include/taglib
 
 CONFIG += static
 

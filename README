@@ -2,7 +2,7 @@ Metaudit is an application for tagging music written in C++ using Qt and TagLib.
 It supports many audio formats. You can choose which tags you want to edit and you can also adit more files at once.
 
 
-Metaudit (C) 2014 by Karel Patlejch (under GNU GPL)
+Metaudit (C) 2014 by Karel Patlejch (under GNU GPL 2.0)
 https://github.com/amethystAnt/Metaudit
 
 Dark Style (the one used in this app) (C) 2014 by Colin Duquesnoy (MIT)
@@ -21,7 +21,7 @@ Extract all files to the same directory and simply execute Metaudit.exe
 Extract all files
 Install TagLib
 Install Qt 4.8
-Add the correct path to TagLib in Metaudit.pro (especially the INCLUDEPATH and DEPENDPATH variables)
+Add the correct path to TagLib in Metaudit.pro (especially the INCLUDEPATH, DEPENDPATH and LIBS)
 
 $cd src
 $qmake
