@@ -95,10 +95,10 @@ int main(int argc, char *argv[]) {
     layout->addWidget(year, 6, 1, 1, 1, 0);
     layout->addWidget(genre, 7, 1, 1, 1, 0);
     layout->addWidget(save, 8, 2, 1, 1, 0);
-    layout->addWidget(pictureCheck, 9, 0, 1, 1, 0);
-    layout->addWidget(picture, 9, 1, 1, 1, 0);
-    layout->addWidget(pictureSelection, 9, 2, 1, 1, 0);
-    layout->addWidget(pictureLabel, 10, 1);
+    //layout->addWidget(pictureCheck, 9, 0, 1, 1, 0);
+    //layout->addWidget(picture, 9, 1, 1, 1, 0);
+    //layout->addWidget(pictureSelection, 9, 2, 1, 1, 0);
+    //layout->addWidget(pictureLabel, 10, 1);
 
     window->setFixedHeight(350);
     window->setFixedWidth(400);
