@@ -25,7 +25,10 @@ FileSelection::FileSelection(QWidget *parent, QPushButton* but, QLineEdit *l)
    connect(but, SIGNAL(clicked()), this, SLOT(showFileDialog()));
 }
 
-FileSelection::~FileSelection() {}
+FileSelection::~FileSelection() {
+
+}
+
 
 QString FileSelection::getFile() {
     return file;
@@ -35,7 +38,7 @@ void FileSelection::showFileDialog() {
 
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setNameFilter(tr("Audio files (*.wav *.mp3)"));
+    dialog.setNameFilter(tr("Audio files (*.mp3)"));
     dialog.setViewMode(QFileDialog::Detail);
     dialog.show();
     if(dialog.exec()) {
@@ -46,7 +49,8 @@ void FileSelection::showFileDialog() {
         string comma = convert.str();
         string stdSeparator = comma + " " + comma;
         QString separator = QString::fromStdString(stdSeparator);
-        string stdFile = comma + l.join(separator).toStdString() + comma;
+        QString s = l.join(separator);
+        string stdFile = comma + s.toStdString() + comma;
         file = QString::fromStdString(stdFile);
         outputLine->clear();
         if(l.size() > 1)

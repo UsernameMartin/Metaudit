@@ -14,6 +14,7 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 #include <taglib.h>
 #include <fileref.h>
 #include <string>
+#include <iostream>
 #include <sstream>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -40,12 +41,16 @@ void DataExtractor::extractData() {
         int i2 = stdPath.find('"', 1);
         stdPath = stdPath.substr(i1+1, i2-1);
     }
+    using namespace std;
+    cout << stdPath;
     const char* charPath = stdPath.c_str();
     ifstream fileCheck(charPath);
     if(!fileCheck.good()) {
 
         QWidget *w = new QWidget();
-        QLabel *l = new QLabel("Invalid file!", w);
+        QLabel *l = new QLabel("Invalid name of file!\n"
+                               "If you are trying to open a file with a localized name, check your path in the editor,\n"
+                               "because there can be errors when converting the text!");
         QPushButton *b = new QPushButton("OK", w);
         QVBoxLayout *lay = new QVBoxLayout();
         lay->addWidget(l);

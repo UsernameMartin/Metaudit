@@ -18,16 +18,23 @@ SOURCES += main.cpp\
     dataeditors.cpp \
     datasaver.cpp \
     genreselection.cpp \
-    inputline.cpp
+    inputline.cpp \
+    pictureselection.cpp
 
 HEADERS  += fileselection.h \
     dataextractor.h \
     dataeditors.h \
     datasaver.h \
     genreselection.h \
-    inputline.h
+    inputline.h \
+    pictureselection.h
 
 RESOURCES += qdarkstyle/style.qrc \
+
+OTHER_FILES += \
+    icon.ico
+
+RC_FILE = metaudit.rc
 
 win32:CONFIG(release, debug|release): LIBS += -L"C:\Libraries\taglib\lib" -ltag
 else:win32:CONFIG(debug, debug|release): LIBS += -L"C:\Libraries\taglib\lib" -ltag
@@ -39,5 +46,3 @@ unix:INCLUDEPATH += /usr/include/taglib
 unix:DEPENDPATH += /usr/include/taglib
 
 CONFIG += static
-
-

@@ -1,5 +1,5 @@
-Metaudit is an application for tagging music written in C++ using Qt and TagLib. It is simple and easy to use. 
-It supports many audio formats. You can choose which tags you want to edit and you can also adit more files at once.
+Metaudit is an application for tagging MP3 files written in C++ using Qt and TagLib. It is simple and easy to use.
+You can choose which tags you want to edit and you can also adit more files at once.
 
 
 Metaudit (C) 2014 by Karel Patlejch (under GNU GPL 2.0)

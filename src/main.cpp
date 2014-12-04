@@ -21,25 +21,36 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 #include <QFile>
 #include <QTextStream>
 #include <QGtkStyle>
+#include <QIcon>
+#include <iostream>
+#include <string>
 #include "dataextractor.h"
 #include "fileselection.h"
 #include "dataeditors.h"
 #include "datasaver.h"
 #include "genreselection.h"
 #include "inputline.h"
+#include "pictureselection.h"
 
 void setDarkTheme(QApplication &a);
 
 int main(int argc, char *argv[]) {
 
     QApplication a(argc, argv);
+    QIcon icon("icon.ico");
+    a.setWindowIcon(icon);
     setDarkTheme(a);
     QWidget *window = new QWidget();
     QGridLayout *layout = new QGridLayout(window);
 
+    QCheckBox *pictureCheck = new QCheckBox("Picture file (full path):", window);
+    pictureCheck->setChecked(true);
+    InputLine *picture = new InputLine(window, pictureCheck);
+    QLabel *pictureLabel = new QLabel();
+    PictureSelection* pictureSelection = new PictureSelection(window, picture, pictureLabel, layout);
     QPushButton *selectFile = new QPushButton("Browse...", window);
     QLineEdit *path = new QLineEdit(window);
-    QLabel *pathLabel = new QLabel("File (absolute path):", window);
+    QLabel *pathLabel = new QLabel("File (full path):", window);
     FileSelection selection(window, selectFile, path);
     QPushButton *showData = new QPushButton("Extract data", window);
     QCheckBox *authorCheck = new QCheckBox("Artist:", window);
@@ -84,6 +95,13 @@ int main(int argc, char *argv[]) {
     layout->addWidget(year, 6, 1, 1, 1, 0);
     layout->addWidget(genre, 7, 1, 1, 1, 0);
     layout->addWidget(save, 8, 2, 1, 1, 0);
+    layout->addWidget(pictureCheck, 9, 0, 1, 1, 0);
+    layout->addWidget(picture, 9, 1, 1, 1, 0);
+    layout->addWidget(pictureSelection, 9, 2, 1, 1, 0);
+    layout->addWidget(pictureLabel, 10, 1);
+
+    window->setFixedHeight(350);
+    window->setFixedWidth(400);
     window->setLayout(layout);
     window->show();
 
