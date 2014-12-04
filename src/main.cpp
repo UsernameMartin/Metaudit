@@ -43,11 +43,11 @@ int main(int argc, char *argv[]) {
     QWidget *window = new QWidget();
     QGridLayout *layout = new QGridLayout(window);
 
-    QCheckBox *pictureCheck = new QCheckBox("Picture file (full path):", window);
-    pictureCheck->setChecked(true);
-    InputLine *picture = new InputLine(window, pictureCheck);
-    QLabel *pictureLabel = new QLabel();
-    PictureSelection* pictureSelection = new PictureSelection(window, picture, pictureLabel, layout);
+    //QCheckBox *pictureCheck = new QCheckBox("Picture file (full path):", window);
+    //pictureCheck->setChecked(true);
+    //InputLine *picture = new InputLine(window, pictureCheck);
+    //QLabel *pictureLabel = new QLabel();
+    //PictureSelection* pictureSelection = new PictureSelection(window, picture, pictureLabel, layout);
     QPushButton *selectFile = new QPushButton("Browse...", window);
     QLineEdit *path = new QLineEdit(window);
     QLabel *pathLabel = new QLabel("File (full path):", window);
