@@ -22,6 +22,8 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 #include <QTextStream>
 #include <QGtkStyle>
 #include <QIcon>
+#include <QTextCodec>
+#include <qglobal.h>
 #include <iostream>
 #include <string>
 #include "dataextractor.h"
@@ -37,6 +39,14 @@ void setDarkTheme(QApplication &a);
 int main(int argc, char *argv[]) {
 
     QApplication a(argc, argv);
+    QTextCodec *codec;
+#ifdef WIN32
+    codec = QTextCodec::codecForName("Windows-1250");
+#else
+    codec = QTextCodec::codecForName("UTF-8");
+#endif
+    QTextCodec::setCodecForCStrings(codec);
+    QTextCodec::setCodecForLocale(codec);
     QIcon icon("icon.ico");
     a.setWindowIcon(icon);
     setDarkTheme(a);

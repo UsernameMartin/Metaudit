@@ -61,6 +61,8 @@ void DataSaver::saveData() {
                 lay->addWidget(l);
                 lay->addWidget(b);
                 w->setLayout(lay);
+                w->setFixedHeight(100);
+                w->setFixedWidth(150);
                 QWidget::connect(b, SIGNAL(clicked()), w, SLOT(close()));
                 w->show();
                 return;
@@ -124,6 +126,8 @@ void DataSaver::saveData() {
     layout->addWidget(l);
     layout->addWidget(b);
     w->setLayout(layout);
+    w->setFixedHeight(100);
+    w->setFixedWidth(150);
     w->show();
     QWidget::connect(b, SIGNAL(clicked()), w, SLOT(close()));
 
