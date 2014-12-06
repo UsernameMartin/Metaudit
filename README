@@ -1,9 +1,9 @@
 Metaudit is an application for tagging MP3 files written in C++ using Qt and TagLib. It is simple and easy to use.
-You can choose which tags you want to edit and you can also adit more files at once.
+You can choose which tags you want to edit and you can also edit more files at once.
 
 
 Metaudit (C) 2014 by Karel Patlejch (under GNU GPL 2.0)
-https://github.com/amethystAnt/Metaudit
+https://github.com/amethystAnt/Metaudit/release
 
 Dark Style (the one used in this app) (C) 2014 by Colin Duquesnoy (MIT)
 https://github.com/ColinDuquesnoy/QDarkStyleSheet
@@ -20,6 +20,7 @@ Qt 4.8: http://qt-project.org/
 Extract all files to the same directory and simply execute Metaudit.exe
 
 **Linux:**
+Download the source code from https://github.com/amethystAnt/Metaudit/releases
 Extract all files
 Install TagLib
 Install Qt 4.8
