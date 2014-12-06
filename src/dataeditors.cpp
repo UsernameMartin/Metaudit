@@ -17,7 +17,9 @@ DataEditors::DataEditors(QObject *parent, QLineEdit *pTitle,
                          QLineEdit *pAlbum,
                          QLineEdit *pArtist,
                          QLineEdit *pYear,
-                         QComboBox *pGenre) : QObject(parent) {
+                         QComboBox *pGenre,
+                         QLineEdit *pPicture,
+                         QLabel *pLabel) : QObject(parent) {
 
         title = pTitle;
         track = pTrack;
@@ -25,5 +27,7 @@ DataEditors::DataEditors(QObject *parent, QLineEdit *pTitle,
         artist = pArtist;
         year = pYear;
         genre = pGenre;
+        picture = pPicture;
+        pictureLabel = pLabel;
 
 }

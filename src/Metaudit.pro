@@ -30,9 +30,12 @@ HEADERS  += fileselection.h \
     pictureselection.h
 
 RESOURCES += qdarkstyle/style.qrc \
+    images.qrc
 
 OTHER_FILES += \
-    icon.ico
+    icon.ico \
+    nofile.png \
+    nosuchfile.png
 
 RC_FILE = metaudit.rc
 

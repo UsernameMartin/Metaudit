@@ -53,14 +53,14 @@ int main(int argc, char *argv[]) {
     QWidget *window = new QWidget();
     QGridLayout *layout = new QGridLayout(window);
 
-    //QCheckBox *pictureCheck = new QCheckBox("Picture file (full path):", window);
-    //pictureCheck->setChecked(true);
-    //InputLine *picture = new InputLine(window, pictureCheck);
-    //QLabel *pictureLabel = new QLabel();
-    //PictureSelection* pictureSelection = new PictureSelection(window, picture, pictureLabel, layout);
+    QCheckBox *pictureCheck = new QCheckBox("Picture file:", window);
+    pictureCheck->setChecked(true);
+    InputLine *picture = new InputLine(window, pictureCheck);
+    QLabel *pictureLabel = new QLabel();
+    PictureSelection* pictureSelection = new PictureSelection(window, picture, pictureLabel, layout, pictureCheck);
     QPushButton *selectFile = new QPushButton("Browse...", window);
     QLineEdit *path = new QLineEdit(window);
-    QLabel *pathLabel = new QLabel("File (full path):", window);
+    QLabel *pathLabel = new QLabel("File(s):", window);
     FileSelection selection(window, selectFile, path);
     QPushButton *showData = new QPushButton("Extract data", window);
     QCheckBox *authorCheck = new QCheckBox("Artist:", window);
@@ -83,34 +83,36 @@ int main(int argc, char *argv[]) {
 
     track->setValidator(new QIntValidator(1, 100000000, window));
     year->setValidator(new QIntValidator(0, 2060, window));
-    DataEditors *editors = new DataEditors(window, title, track, album, author, year, genre);
+    DataEditors *editors = new DataEditors(window, title, track, album, author, year, genre, picture, pictureLabel);
     DataExtractor *extractor = new DataExtractor(window, editors, path);
     DataSaver *saver = new DataSaver(window, editors, path);
     QObject::connect(showData, SIGNAL(clicked()), extractor, SLOT(extractData()));
     QObject::connect(save, SIGNAL(clicked()), saver, SLOT(saveData()));
+    pictureLabel->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
 
     layout->addWidget(pathLabel, 0, 0, 1, 1, 0);
     layout->addWidget(path, 0, 1, 1, 1, 0);
     layout->addWidget(selectFile, 0, 2, 1, 1, 0);
     layout->addWidget(showData, 1, 0, 1, 1, 0);
-    layout->addWidget(authorCheck, 2, 0, 1, 1, 0);
-    layout->addWidget(author, 2, 1, 1, 1, 0);
-    layout->addWidget(albumCheck, 3, 0, 1, 1, 0);
-    layout->addWidget(album, 3, 1, 1, 1, 0);
-    layout->addWidget(trackCheck, 4, 0, 1, 1, 0);
-    layout->addWidget(track, 4, 1, 1, 1, 0);
-    layout->addWidget(titleCheck, 5, 0, 1, 1, 0);
-    layout->addWidget(title, 5, 1, 1, 1, 0);
-    layout->addWidget(yearCheck, 6, 0, 1, 1, 0);
-    layout->addWidget(year, 6, 1, 1, 1, 0);
-    layout->addWidget(genre, 7, 1, 1, 1, 0);
-    layout->addWidget(save, 8, 2, 1, 1, 0);
-    //layout->addWidget(pictureCheck, 9, 0, 1, 1, 0);
-    //layout->addWidget(picture, 9, 1, 1, 1, 0);
-    //layout->addWidget(pictureSelection, 9, 2, 1, 1, 0);
-    //layout->addWidget(pictureLabel, 10, 1);
+    layout->addWidget(pictureCheck, 2, 0, 1, 1, 0);
+    layout->addWidget(picture, 2, 1, 1, 1, 0);
+    layout->addWidget(pictureSelection, 2, 2, 1, 1, 0);
+    layout->addWidget(pictureLabel, 3, 1, 1, 1, 0);
+    layout->addWidget(authorCheck, 4, 0, 1, 1, 0);
+    layout->addWidget(author, 4, 1, 1, 1, 0);
+    layout->addWidget(genre, 5, 1, 1, 1, 0);
+    layout->addWidget(albumCheck, 6, 0, 1, 1, 0);
+    layout->addWidget(album, 6, 1, 1, 1, 0);
+    layout->addWidget(yearCheck, 7, 0, 1, 1, 0);
+    layout->addWidget(year, 7, 1, 1, 1, 0);
+    layout->addWidget(trackCheck, 8, 0, 1, 1, 0);
+    layout->addWidget(track, 8, 1, 1, 1, 0);
+    layout->addWidget(titleCheck, 9, 0, 1, 1, 0);
+    layout->addWidget(title, 9, 1, 1, 1, 0);
+    layout->addWidget(save, 10, 2, 1, 1, 0);
 
-    window->setFixedHeight(350);
+
+    window->setFixedHeight(450);
     window->setFixedWidth(400);
     window->setLayout(layout);
     window->show();

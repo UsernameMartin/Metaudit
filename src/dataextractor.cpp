@@ -13,12 +13,16 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 #include <QPushButton>
 #include <taglib.h>
 #include <fileref.h>
+#include <mpegfile.h>
+#include <id3v2tag.h>
+#include <attachedpictureframe.h>
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QPixmap>
 #include <fstream>
 #include "dataextractor.h"
 
@@ -34,7 +38,7 @@ DataExtractor::DataExtractor(QWidget *parent, DataEditors* d, QLineEdit* p) :
 
 void DataExtractor::extractData() {
 
-    QString qPath = pathEdit->text().toLocal8Bit();
+    QString qPath = pathEdit->text();
     string stdPath = qPath.toStdString();
     if(stdPath.find('"') != std::string::npos) {
         int i1 = stdPath.find('"', 0);
@@ -42,7 +46,7 @@ void DataExtractor::extractData() {
         stdPath = stdPath.substr(i1+1, i2-1);
     }
     using namespace std;
-    cout << stdPath;
+    //cout << stdPath;
     const char* charPath = stdPath.c_str();
     ifstream fileCheck(charPath);
     if(!fileCheck.good()) {
@@ -89,5 +93,19 @@ void DataExtractor::extractData() {
         editors->year->setText(year);
     int i = editors->genre->findText(QString::fromLocal8Bit(file.tag()->genre().toCString()));
     editors->genre->setCurrentIndex(i);
+
+    TagLib::MPEG::File mpegFile(name);
+    TagLib::ID3v2::Tag *tag = mpegFile.ID3v2Tag();
+    QImage image;
+    TagLib::ID3v2::FrameList l = tag->frameList("APIC");
+    if(l.isEmpty())
+        return;
+    TagLib::ID3v2::AttachedPictureFrame *f =
+            static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
+    image.loadFromData((const uchar *) f->picture().data(), f->picture().size());
+    image = image.scaled(100, 100);
+    editors->pictureLabel->setPixmap(QPixmap::fromImage(image));
+    editors->pictureLabel->update();
+    editors->picture->setText("<Attached picture>");
 
 }

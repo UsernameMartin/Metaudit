@@ -17,19 +17,22 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 #include <QObject>
 #include <QLineEdit>
 #include <QComboBox>
+#include <QLabel>
 
 class DataEditors : public QObject {
     Q_OBJECT
 public:
     explicit DataEditors(QObject *parent, QLineEdit* pTitle, QLineEdit* pTrack,
                          QLineEdit* pAlbum, QLineEdit* pArtist, QLineEdit* pYear,
-                         QComboBox* pGenre);
+                         QComboBox* pGenre, QLineEdit* pPicture, QLabel* pLabel);
     QLineEdit* title;
     QLineEdit* track;
     QLineEdit* album;
     QLineEdit* artist;
     QLineEdit* year;
     QComboBox* genre;
+    QLineEdit* picture;
+    QLabel* pictureLabel;
 };
 
 #endif // DATAEDITORS_H
