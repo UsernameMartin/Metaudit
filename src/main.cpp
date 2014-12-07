@@ -22,6 +22,7 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 #include <QTextStream>
 #include <QGtkStyle>
 #include <QIcon>
+#include <QImage>
 #include <QTextCodec>
 #include <qglobal.h>
 #include <iostream>
@@ -47,7 +48,7 @@ int main(int argc, char *argv[]) {
 #endif
     QTextCodec::setCodecForCStrings(codec);
     QTextCodec::setCodecForLocale(codec);
-    QIcon icon("icon.ico");
+    QIcon icon(":images/icon.ico");
     a.setWindowIcon(icon);
     setDarkTheme(a);
     QWidget *window = new QWidget();
@@ -81,9 +82,10 @@ int main(int argc, char *argv[]) {
     GenreSelection *genre = new GenreSelection(window);
     QPushButton *save = new QPushButton("Save data", window);
 
+    QImage *image = new QImage();
     track->setValidator(new QIntValidator(1, 100000000, window));
     year->setValidator(new QIntValidator(0, 2060, window));
-    DataEditors *editors = new DataEditors(window, title, track, album, author, year, genre, picture, pictureLabel);
+    DataEditors *editors = new DataEditors(window, title, track, album, author, year, genre, picture, pictureLabel, image);
     DataExtractor *extractor = new DataExtractor(window, editors, path);
     DataSaver *saver = new DataSaver(window, editors, path);
     QObject::connect(showData, SIGNAL(clicked()), extractor, SLOT(extractData()));

@@ -11,6 +11,9 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 
 #include <taglib.h>
 #include <fileref.h>
+#include <mpegfile.h>
+#include <id3v2tag.h>
+#include <attachedpictureframe.h>
 #include <string>
 #include <algorithm>
 #include <QLabel>
@@ -21,6 +24,31 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 #include "datasaver.h"
 
 using namespace std;
+
+class ImageFile: public TagLib::File {
+    public:
+    const char* f;
+    ImageFile(const char* file) : TagLib::File(file) {
+        f = file;
+    }
+
+    TagLib::ByteVector data() {
+            return readBlock(length());
+    }
+
+    private:
+        virtual TagLib::Tag *tag() const {
+            return 0;
+        }
+
+        virtual TagLib::AudioProperties *audioProperties() const {
+            return 0;
+        }
+
+        virtual bool save() {
+            return false;
+        }
+};
 
 DataSaver::DataSaver(QWidget *parent, DataEditors* e, QLineEdit* p) :
     QWidget(parent) {
@@ -81,7 +109,23 @@ void DataSaver::saveData() {
                 file.tag()->setYear(editors->year->text().toInt());
             file.tag()->setGenre(editors->genre->currentText().toStdString());
             file.save();
-            cout << "saved.\n";
+
+            TagLib::MPEG::File mpegFile(name);
+            TagLib::ID3v2::Tag *tag = mpegFile.ID3v2Tag(true);
+            TagLib::ID3v2::AttachedPictureFrame *frame = new TagLib::ID3v2::AttachedPictureFrame;
+            frame->setMimeType("image/png");
+            QString picture = editors->picture->text().toLocal8Bit();
+            if(picture == "<Attached picture>") {
+
+            } else if(picture == "") {
+
+
+            }
+            const char* charPicture = picture.toStdString().c_str();
+            ImageFile imageTagLibFile(charPicture);
+            frame->setPicture(/*imageTagLibFile.readBlock(imageTagLibFile.length())*/imageTagLibFile.data());
+            tag->addFrame(frame);
+            mpegFile.save();
             i1=i2+1;
             i2+=3;
 
@@ -117,6 +161,23 @@ void DataSaver::saveData() {
             file.tag()->setYear(editors->year->text().toInt());
         file.tag()->setGenre(editors->genre->currentText().toStdString());
         file.save();
+
+        TagLib::MPEG::File mpegFile(name);
+        TagLib::ID3v2::Tag *tag = mpegFile.ID3v2Tag(true);
+        TagLib::ID3v2::AttachedPictureFrame *frame = new TagLib::ID3v2::AttachedPictureFrame;
+        frame->setMimeType("image/png");
+        QString picture = editors->picture->text().toLocal8Bit();
+        if(picture == "<Attached picture>") {
+
+        } else if(picture == "") {
+
+
+        }
+        const char* charPicture = picture.toStdString().c_str();
+        ImageFile imageTagLibFile(charPicture);
+        frame->setPicture(imageTagLibFile.readBlock(imageTagLibFile.length()));
+        tag->addFrame(frame);
+        mpegFile.save();
     }
 
     QWidget* w = new QWidget();
@@ -132,3 +193,5 @@ void DataSaver::saveData() {
     QWidget::connect(b, SIGNAL(clicked()), w, SLOT(close()));
 
 }
+
+

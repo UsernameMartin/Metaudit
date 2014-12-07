@@ -17,6 +17,7 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 #include <QObject>
 #include <QLineEdit>
 #include <QComboBox>
+#include <QImage>
 #include <QLabel>
 
 class DataEditors : public QObject {
@@ -24,7 +25,8 @@ class DataEditors : public QObject {
 public:
     explicit DataEditors(QObject *parent, QLineEdit* pTitle, QLineEdit* pTrack,
                          QLineEdit* pAlbum, QLineEdit* pArtist, QLineEdit* pYear,
-                         QComboBox* pGenre, QLineEdit* pPicture, QLabel* pLabel);
+                         QComboBox* pGenre, QLineEdit* pPicture, QLabel* pLabel,
+                         QImage *pImage);
     QLineEdit* title;
     QLineEdit* track;
     QLineEdit* album;
@@ -33,6 +35,7 @@ public:
     QComboBox* genre;
     QLineEdit* picture;
     QLabel* pictureLabel;
+    QImage* image;
 };
 
 #endif // DATAEDITORS_H

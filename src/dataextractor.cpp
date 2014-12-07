@@ -96,15 +96,20 @@ void DataExtractor::extractData() {
 
     TagLib::MPEG::File mpegFile(name);
     TagLib::ID3v2::Tag *tag = mpegFile.ID3v2Tag();
-    QImage image;
+    QImage* image;
     TagLib::ID3v2::FrameList l = tag->frameList("APIC");
-    if(l.isEmpty())
+    if(l.isEmpty()) {
+        editors->picture->clear();
+        editors->pictureLabel->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
+        editors->pictureLabel->update();
         return;
+    }
     TagLib::ID3v2::AttachedPictureFrame *f =
             static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
-    image.loadFromData((const uchar *) f->picture().data(), f->picture().size());
-    image = image.scaled(100, 100);
-    editors->pictureLabel->setPixmap(QPixmap::fromImage(image));
+    image->loadFromData((const uchar *) f->picture().data(), f->picture().size());
+    *image = image->scaled(100, 100);
+    editors->image = image;
+    editors->pictureLabel->setPixmap(QPixmap::fromImage(*image));
     editors->pictureLabel->update();
     editors->picture->setText("<Attached picture>");
 
