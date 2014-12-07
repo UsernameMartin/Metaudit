@@ -20,7 +20,7 @@ PictureSelection::PictureSelection(QWidget *parent, InputLine *l, QLabel *la, QG
 void PictureSelection::selectPicture() {
 
     QFileDialog dialog(this);
-    dialog.setNameFilter("Image files (*.png)");
+    dialog.setNameFilter("Image files (*.jpeg, *.jpg)");
     dialog.setFileMode(QFileDialog::ExistingFile);
     dialog.setViewMode(QFileDialog::Detail);
     dialog.show();

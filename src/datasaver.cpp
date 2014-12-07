@@ -123,7 +123,7 @@ void DataSaver::saveData() {
             }
             const char* charPicture = picture.toStdString().c_str();
             ImageFile imageTagLibFile(charPicture);
-            frame->setPicture(/*imageTagLibFile.readBlock(imageTagLibFile.length())*/imageTagLibFile.data());
+            frame->setPicture(imageTagLibFile.readBlock(imageTagLibFile.length()));
             tag->addFrame(frame);
             mpegFile.save();
             i1=i2+1;
@@ -165,7 +165,7 @@ void DataSaver::saveData() {
         TagLib::MPEG::File mpegFile(name);
         TagLib::ID3v2::Tag *tag = mpegFile.ID3v2Tag(true);
         TagLib::ID3v2::AttachedPictureFrame *frame = new TagLib::ID3v2::AttachedPictureFrame;
-        frame->setMimeType("image/png");
+        frame->setMimeType("image/jpeg");
         QString picture = editors->picture->text().toLocal8Bit();
         if(picture == "<Attached picture>") {
 
