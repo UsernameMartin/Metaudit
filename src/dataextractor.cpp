@@ -15,6 +15,7 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 #include <fileref.h>
 #include <mpegfile.h>
 #include <id3v2tag.h>
+#include <tpropertymap.h>
 #include <attachedpictureframe.h>
 #include <string>
 #include <iostream>
@@ -96,6 +97,7 @@ void DataExtractor::extractData() {
 
     TagLib::MPEG::File mpegFile(name);
     TagLib::ID3v2::Tag *tag = mpegFile.ID3v2Tag();
+    tag->removeUnsupportedProperties(tag->properties().unsupportedData());
     QImage* image;
     TagLib::ID3v2::FrameList l = tag->frameList("APIC");
     if(l.isEmpty()) {
@@ -104,8 +106,8 @@ void DataExtractor::extractData() {
         editors->pictureLabel->update();
         return;
     }
-    TagLib::ID3v2::AttachedPictureFrame *f =
-            static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
+    TagLib::ID3v2::AttachedPictureFrameV22 *f =
+            static_cast<TagLib::ID3v2::AttachedPictureFrameV22 *>(l.front());
     image->loadFromData((const uchar *) f->picture().data(), f->picture().size());
     *image = image->scaled(100, 100);
     editors->image = image;

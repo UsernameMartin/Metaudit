@@ -14,6 +14,7 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 #include <mpegfile.h>
 #include <id3v2tag.h>
 #include <attachedpictureframe.h>
+#include <tpropertymap.h>
 #include <string>
 #include <algorithm>
 #include <QLabel>
@@ -119,13 +120,19 @@ void DataSaver::saveData() {
 
             } else if(picture == "") {
 
+                tag->removeFrames("APIC");
+                mpegFile.save();
+                break;
+
+            } else {
+
+                const char* charPicture = picture.toStdString().c_str();
+                ImageFile imageTagLibFile(charPicture);
+                frame->setPicture(imageTagLibFile.data());
+                tag->addFrame(frame);
+                mpegFile.save();
 
             }
-            const char* charPicture = picture.toStdString().c_str();
-            ImageFile imageTagLibFile(charPicture);
-            frame->setPicture(imageTagLibFile.readBlock(imageTagLibFile.length()));
-            tag->addFrame(frame);
-            mpegFile.save();
             i1=i2+1;
             i2+=3;
 
@@ -164,7 +171,7 @@ void DataSaver::saveData() {
 
         TagLib::MPEG::File mpegFile(name);
         TagLib::ID3v2::Tag *tag = mpegFile.ID3v2Tag(true);
-        TagLib::ID3v2::AttachedPictureFrame *frame = new TagLib::ID3v2::AttachedPictureFrame;
+        TagLib::ID3v2::AttachedPictureFrameV22 *frame = static_cast<TagLib::ID3v2::AttachedPictureFrameV22 *>(mpegFile.ID3v2Tag(true)->frameList("APIC").front());
         frame->setMimeType("image/jpeg");
         QString picture = editors->picture->text().toLocal8Bit();
         if(picture == "<Attached picture>") {
@@ -173,14 +180,29 @@ void DataSaver::saveData() {
 
             tag->removeFrames("APIC");
             mpegFile.save();
-            break;
 
         } else {
            
             const char* charPicture = picture.toStdString().c_str();
+            ifstream fileCheck(charPicture);
+            if(!fileCheck.good()) {
+
+                QWidget *w = new QWidget();
+                QLabel *l = new QLabel("Invalid picture!", w);
+                QPushButton *b = new QPushButton("OK", w);
+                QVBoxLayout *lay = new QVBoxLayout();
+                lay->addWidget(l);
+                lay->addWidget(b);
+                w->setLayout(lay);
+                QWidget::connect(b, SIGNAL(clicked()), w, SLOT(close()));
+                w->show();
+                return;
+            }
             ImageFile imageTagLibFile(charPicture);
-            frame->setPicture(imageTagLibFile.readBlock(imageTagLibFile.length()));
+            frame->setPicture(imageTagLibFile.data());
+            tag->removeFrames("APIC");
             tag->addFrame(frame);
+            tag->removeUnsupportedProperties(tag->properties().unsupportedData());
             mpegFile.save();
             
         }
