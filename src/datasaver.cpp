@@ -171,13 +171,20 @@ void DataSaver::saveData() {
 
         } else if(picture == "") {
 
+            tag->removeFrames("APIC");
+            mpegFile.save();
+            break;
 
+        } else {
+           
+            const char* charPicture = picture.toStdString().c_str();
+            ImageFile imageTagLibFile(charPicture);
+            frame->setPicture(imageTagLibFile.readBlock(imageTagLibFile.length()));
+            tag->addFrame(frame);
+            mpegFile.save();
+            
         }
-        const char* charPicture = picture.toStdString().c_str();
-        ImageFile imageTagLibFile(charPicture);
-        frame->setPicture(imageTagLibFile.readBlock(imageTagLibFile.length()));
-        tag->addFrame(frame);
-        mpegFile.save();
+        
     }
 
     QWidget* w = new QWidget();
