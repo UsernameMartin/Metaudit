@@ -46,8 +46,6 @@ void DataExtractor::extractData() {
         int i2 = stdPath.find('"', 1);
         stdPath = stdPath.substr(i1+1, i2-1);
     }
-    using namespace std;
-    //cout << stdPath;
     const char* charPath = stdPath.c_str();
     ifstream fileCheck(charPath);
     if(!fileCheck.good()) {
@@ -97,8 +95,7 @@ void DataExtractor::extractData() {
 
     TagLib::MPEG::File mpegFile(name);
     TagLib::ID3v2::Tag *tag = mpegFile.ID3v2Tag();
-    tag->removeUnsupportedProperties(tag->properties().unsupportedData());
-    QImage* image;
+    QImage image;
     TagLib::ID3v2::FrameList l = tag->frameList("APIC");
     if(l.isEmpty()) {
         editors->picture->clear();
@@ -106,13 +103,16 @@ void DataExtractor::extractData() {
         editors->pictureLabel->update();
         return;
     }
-    TagLib::ID3v2::AttachedPictureFrameV22 *f =
-            static_cast<TagLib::ID3v2::AttachedPictureFrameV22 *>(l.front());
-    image->loadFromData((const uchar *) f->picture().data(), f->picture().size());
-    *image = image->scaled(100, 100);
-    editors->image = image;
-    editors->pictureLabel->setPixmap(QPixmap::fromImage(*image));
+
+    TagLib::ID3v2::AttachedPictureFrame *f =
+            static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
+    image.loadFromData((const uchar *) f->picture().data(), f->picture().size());
+    image = image.scaled(100, 100);
+    editors->image = &image;
+    editors->pictureLabel->setPixmap(QPixmap::fromImage(image));
     editors->pictureLabel->update();
+    editors->copiedPicture =
+            static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
     editors->picture->setText("<Attached picture>");
 
 }

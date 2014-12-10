@@ -19,6 +19,7 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 #include <QComboBox>
 #include <QImage>
 #include <QLabel>
+#include <attachedpictureframe.h>
 
 class DataEditors : public QObject {
     Q_OBJECT
@@ -36,6 +37,7 @@ public:
     QLineEdit* picture;
     QLabel* pictureLabel;
     QImage* image;
+    TagLib::ID3v2::AttachedPictureFrame* copiedPicture;
 };
 
 #endif // DATAEDITORS_H
