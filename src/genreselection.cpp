@@ -11,9 +11,11 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 
 #include "genreselection.h"
 
-GenreSelection::GenreSelection(QWidget *parent) :
+GenreSelection::GenreSelection(QWidget *parent, QCheckBox *pCheck) :
     QComboBox(parent) {
 
+    check = pCheck;
+    QObject::connect(check, SIGNAL(toggled(bool)), this, SLOT(hide(bool)));
     setInsertPolicy(QComboBox::InsertAlphabetically);
     addItem("Blues");
     addItem("Classic Rock");
@@ -97,4 +99,13 @@ GenreSelection::GenreSelection(QWidget *parent) :
     addItem("Hard Rock");
     addItem("");
 
+}
+
+void GenreSelection::hide(bool show) {
+    if(show) {
+        setVisible(true);
+
+    } else {
+        setVisible(false);
+    }
 }

@@ -93,8 +93,8 @@ void DataExtractor::extractData() {
     int i = editors->genre->findText(QString::fromLocal8Bit(file.tag()->genre().toCString()));
     editors->genre->setCurrentIndex(i);
 
-    TagLib::MPEG::File mpegFile(name);
-    TagLib::ID3v2::Tag *tag = mpegFile.ID3v2Tag();
+    TagLib::MPEG::File *mpegFile = new TagLib::MPEG::File(name);
+    TagLib::ID3v2::Tag *tag = mpegFile->ID3v2Tag();
     QImage image;
     TagLib::ID3v2::FrameList l = tag->frameList("APIC");
     if(l.isEmpty()) {
@@ -111,8 +111,7 @@ void DataExtractor::extractData() {
     editors->image = &image;
     editors->pictureLabel->setPixmap(QPixmap::fromImage(image));
     editors->pictureLabel->update();
-    editors->copiedPicture =
-            static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
+    editors->mpegFile = mpegFile;
     editors->picture->setText("<Attached picture>");
 
 }

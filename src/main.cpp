@@ -79,7 +79,9 @@ int main(int argc, char *argv[]) {
     QCheckBox *yearCheck = new QCheckBox("Year:", window);
     yearCheck->setChecked(true);
     InputLine *year = new InputLine(window, yearCheck);
-    GenreSelection *genre = new GenreSelection(window);
+    QCheckBox *genreCheck = new QCheckBox("Genre:", window);
+    genreCheck->setChecked(true);
+    GenreSelection *genre = new GenreSelection(window, genreCheck);
     QPushButton *save = new QPushButton("Save data", window);
 
     QImage *image = new QImage();
@@ -102,6 +104,7 @@ int main(int argc, char *argv[]) {
     layout->addWidget(pictureLabel, 3, 1, 1, 1, 0);
     layout->addWidget(authorCheck, 4, 0, 1, 1, 0);
     layout->addWidget(author, 4, 1, 1, 1, 0);
+    layout->addWidget(genreCheck, 5, 0, 1, 1, 0);
     layout->addWidget(genre, 5, 1, 1, 1, 0);
     layout->addWidget(albumCheck, 6, 0, 1, 1, 0);
     layout->addWidget(album, 6, 1, 1, 1, 0);

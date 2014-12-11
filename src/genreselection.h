@@ -14,12 +14,19 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 
 #include <QWidget>
 #include <QComboBox>
+#include <QCheckBox>
 
 class GenreSelection : public QComboBox
 {
     Q_OBJECT
 public:
-    explicit GenreSelection(QWidget *parent = 0);
+    explicit GenreSelection(QWidget *parent, QCheckBox* pCheck);
+
+public slots:
+    void hide(bool show);
+
+private:
+    QCheckBox* check;
 
 };
 

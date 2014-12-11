@@ -142,8 +142,10 @@ void saveFile(string stdPath, DataEditors* editors) {
     QString picture = editors->picture->text();
     if(picture == "<Attached picture>") {
 
-        frame->setMimeType(editors->copiedPicture->mimeType());
-        frame->setPicture(editors->copiedPicture->picture().data());
+        TagLib::ID3v2::AttachedPictureFrame *f =
+                static_cast<TagLib::ID3v2::AttachedPictureFrame *>(editors->mpegFile->ID3v2Tag(true)->frameList("APIC").front());
+        frame->setMimeType(f->mimeType());
+        frame->setPicture(f->picture());
         tag->removeFrames("APIC");
         tag->addFrame(frame);
         mpegFile.save();
@@ -170,8 +172,10 @@ void saveFile(string stdPath, DataEditors* editors) {
             w->setLayout(lay);
             QWidget::connect(b, SIGNAL(clicked()), w, SLOT(close()));
             w->show();
+            delete w;
             return;
         }
+
         ImageFile imageTagLibFile(charPicture);
         frame->setPicture(imageTagLibFile.data());
         tag->removeFrames("APIC");
