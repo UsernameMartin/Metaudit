@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     datasaver.cpp \
     genreselection.cpp \
     inputline.cpp \
-    pictureselection.cpp
+    pictureselection.cpp \
+    commenteditor.cpp
 
 HEADERS  += fileselection.h \
     dataextractor.h \
@@ -27,7 +28,8 @@ HEADERS  += fileselection.h \
     datasaver.h \
     genreselection.h \
     inputline.h \
-    pictureselection.h
+    pictureselection.h \
+    commenteditor.h
 
 RESOURCES += qdarkstyle/style.qrc \
     images.qrc

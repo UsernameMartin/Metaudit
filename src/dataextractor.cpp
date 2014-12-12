@@ -91,27 +91,34 @@ void DataExtractor::extractData() {
     if(editors->year->isEnabled())
         editors->year->setText(year);
     int i = editors->genre->findText(QString::fromLocal8Bit(file.tag()->genre().toCString()));
-    editors->genre->setCurrentIndex(i);
+    if(editors->genre->isEnabled())
+        editors->genre->setCurrentIndex(i);
+    QString comment = QString::fromLocal8Bit(file.tag()->comment().toCString());
+    if(editors->comment->isEnabled())
+        editors->comment->setText(comment);
 
-    TagLib::MPEG::File *mpegFile = new TagLib::MPEG::File(name);
-    TagLib::ID3v2::Tag *tag = mpegFile->ID3v2Tag();
-    QImage image;
-    TagLib::ID3v2::FrameList l = tag->frameList("APIC");
-    if(l.isEmpty()) {
-        editors->picture->clear();
-        editors->pictureLabel->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
+    if(editors->picture->isEnabled()) {
+        TagLib::MPEG::File *mpegFile = new TagLib::MPEG::File(name);
+        TagLib::ID3v2::Tag *tag = mpegFile->ID3v2Tag();
+        QImage image;
+        TagLib::ID3v2::FrameList l = tag->frameList("APIC");
+        if(l.isEmpty()) {
+            editors->picture->clear();
+            editors->pictureLabel->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
+            editors->pictureLabel->update();
+            return;
+        }
+
+        TagLib::ID3v2::AttachedPictureFrame *f =
+                static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
+        image.loadFromData((const uchar *) f->picture().data(), f->picture().size());
+        image = image.scaled(100, 100);
+        editors->image = &image;
+        editors->pictureLabel->setPixmap(QPixmap::fromImage(image));
         editors->pictureLabel->update();
-        return;
+        editors->mpegFile = mpegFile;
+        editors->picture->setText("<Attached picture>");
     }
 
-    TagLib::ID3v2::AttachedPictureFrame *f =
-            static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
-    image.loadFromData((const uchar *) f->picture().data(), f->picture().size());
-    image = image.scaled(100, 100);
-    editors->image = &image;
-    editors->pictureLabel->setPixmap(QPixmap::fromImage(image));
-    editors->pictureLabel->update();
-    editors->mpegFile = mpegFile;
-    editors->picture->setText("<Attached picture>");
 
 }

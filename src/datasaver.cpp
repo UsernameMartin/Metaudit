@@ -133,7 +133,10 @@ void saveFile(string stdPath, DataEditors* editors) {
         file.tag()->setTitle(editors->title->text().toStdString());
     if(editors->year->isEnabled())
         file.tag()->setYear(editors->year->text().toInt());
-    file.tag()->setGenre(editors->genre->currentText().toStdString());
+    if(editors->genre->isEnabled())
+        file.tag()->setGenre(editors->genre->currentText().toStdString());
+    if(editors->comment->isEnabled())
+        file.tag()->setComment(editors->comment->toPlainText().toStdString());
     file.save();
 
     TagLib::MPEG::File mpegFile(name);

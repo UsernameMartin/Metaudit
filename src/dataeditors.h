@@ -19,6 +19,7 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 #include <QComboBox>
 #include <QImage>
 #include <QLabel>
+#include <QTextEdit>
 #include <attachedpictureframe.h>
 #include <mpegfile.h>
 
@@ -28,7 +29,7 @@ public:
     explicit DataEditors(QObject *parent, QLineEdit* pTitle, QLineEdit* pTrack,
                          QLineEdit* pAlbum, QLineEdit* pArtist, QLineEdit* pYear,
                          QComboBox* pGenre, QLineEdit* pPicture, QLabel* pLabel,
-                         QImage *pImage);
+                         QImage *pImage, QTextEdit *pComment);
     QLineEdit* title;
     QLineEdit* track;
     QLineEdit* album;
@@ -39,6 +40,7 @@ public:
     QLabel* pictureLabel;
     QImage* image;
     TagLib::MPEG::File* mpegFile;
+    QTextEdit* comment;
 };
 
 #endif // DATAEDITORS_H

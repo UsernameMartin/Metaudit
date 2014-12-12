@@ -34,6 +34,7 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 #include "genreselection.h"
 #include "inputline.h"
 #include "pictureselection.h"
+#include "commenteditor.h"
 
 void setDarkTheme(QApplication &a);
 
@@ -82,39 +83,57 @@ int main(int argc, char *argv[]) {
     QCheckBox *genreCheck = new QCheckBox("Genre:", window);
     genreCheck->setChecked(true);
     GenreSelection *genre = new GenreSelection(window, genreCheck);
+    QCheckBox* commentCheck = new QCheckBox("Comment:", window);
+    commentCheck->setChecked(true);
+    CommentEditor *comment = new CommentEditor(window, commentCheck);
+    comment->setFixedHeight(50);
     QPushButton *save = new QPushButton("Save data", window);
 
     QImage *image = new QImage();
     track->setValidator(new QIntValidator(1, 100000000, window));
     year->setValidator(new QIntValidator(0, 2060, window));
-    DataEditors *editors = new DataEditors(window, title, track, album, author, year, genre, picture, pictureLabel, image);
+    DataEditors *editors = new DataEditors(window, title, track, album, author, year, genre, picture, pictureLabel, image, comment);
     DataExtractor *extractor = new DataExtractor(window, editors, path);
     DataSaver *saver = new DataSaver(window, editors, path);
     QObject::connect(showData, SIGNAL(clicked()), extractor, SLOT(extractData()));
     QObject::connect(save, SIGNAL(clicked()), saver, SLOT(saveData()));
     pictureLabel->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
 
-    layout->addWidget(pathLabel, 0, 0, 1, 1, 0);
-    layout->addWidget(path, 0, 1, 1, 1, 0);
-    layout->addWidget(selectFile, 0, 2, 1, 1, 0);
-    layout->addWidget(showData, 1, 0, 1, 1, 0);
-    layout->addWidget(pictureCheck, 2, 0, 1, 1, 0);
-    layout->addWidget(picture, 2, 1, 1, 1, 0);
-    layout->addWidget(pictureSelection, 2, 2, 1, 1, 0);
-    layout->addWidget(pictureLabel, 3, 1, 1, 1, 0);
-    layout->addWidget(authorCheck, 4, 0, 1, 1, 0);
-    layout->addWidget(author, 4, 1, 1, 1, 0);
-    layout->addWidget(genreCheck, 5, 0, 1, 1, 0);
-    layout->addWidget(genre, 5, 1, 1, 1, 0);
-    layout->addWidget(albumCheck, 6, 0, 1, 1, 0);
-    layout->addWidget(album, 6, 1, 1, 1, 0);
-    layout->addWidget(yearCheck, 7, 0, 1, 1, 0);
-    layout->addWidget(year, 7, 1, 1, 1, 0);
-    layout->addWidget(trackCheck, 8, 0, 1, 1, 0);
-    layout->addWidget(track, 8, 1, 1, 1, 0);
-    layout->addWidget(titleCheck, 9, 0, 1, 1, 0);
-    layout->addWidget(title, 9, 1, 1, 1, 0);
-    layout->addWidget(save, 10, 2, 1, 1, 0);
+    int i = 0;
+    layout->addWidget(pathLabel, i, 0, 1, 1, 0);
+    layout->addWidget(path, i, 1, 1, 1, 0);
+    layout->addWidget(selectFile, i, 2, 1, 1, 0);
+    i++;
+    layout->addWidget(showData, i, 0, 1, 1, 0);
+    i++;
+    layout->addWidget(pictureCheck, i, 0, 1, 1, 0);
+    layout->addWidget(picture, i, 1, 1, 1, 0);
+    layout->addWidget(pictureSelection, i, 2, 1, 1, 0);
+    i++;
+    layout->addWidget(pictureLabel, i, 1, 1, 1, 0);
+    i++;
+    layout->addWidget(authorCheck, i, 0, 1, 1, 0);
+    layout->addWidget(author, i, 1, 1, 1, 0);
+    i++;
+    layout->addWidget(genreCheck, i, 0, 1, 1, 0);
+    layout->addWidget(genre, i, 1, 1, 1, 0);
+    i++;
+    layout->addWidget(albumCheck, i, 0, 1, 1, 0);
+    layout->addWidget(album, i, 1, 1, 1, 0);
+    i++;
+    layout->addWidget(yearCheck, i, 0, 1, 1, 0);
+    layout->addWidget(year, i, 1, 1, 1, 0);
+    i++;
+    layout->addWidget(trackCheck, i, 0, 1, 1, 0);
+    layout->addWidget(track, i, 1, 1, 1, 0);
+    i++;
+    layout->addWidget(titleCheck, i, 0, 1, 1, 0);
+    layout->addWidget(title, i, 1, 1, 1, 0);
+    i++;
+    layout->addWidget(commentCheck, i, 0, 1, 1, 0);
+    layout->addWidget(comment, i, 1, 1, 1, 0);
+    i++;
+    layout->addWidget(save, i, 2, 1, 1, 0);
 
 
     window->setFixedHeight(450);

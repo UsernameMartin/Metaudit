@@ -12,7 +12,8 @@ Qt 4.8- (C) by Trolltech: http://qt-project.org/
 #include <QLineEdit>
 #include "dataeditors.h"
 
-DataEditors::DataEditors(QObject *parent, QLineEdit *pTitle,
+DataEditors::DataEditors(QObject *parent,
+                         QLineEdit *pTitle,
                          QLineEdit *pTrack,
                          QLineEdit *pAlbum,
                          QLineEdit *pArtist,
@@ -20,7 +21,8 @@ DataEditors::DataEditors(QObject *parent, QLineEdit *pTitle,
                          QComboBox *pGenre,
                          QLineEdit *pPicture,
                          QLabel *pLabel,
-                         QImage *pImage) : QObject(parent) {
+                         QImage *pImage,
+                         QTextEdit *pComment) : QObject(parent) {
 
         title = pTitle;
         track = pTrack;
@@ -31,5 +33,6 @@ DataEditors::DataEditors(QObject *parent, QLineEdit *pTitle,
         picture = pPicture;
         pictureLabel = pLabel;
         image = pImage;
+        comment = pComment;
 
 }
