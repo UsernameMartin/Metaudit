@@ -1,3 +1,15 @@
+/*
+
+(C) 2014 by Karel Patlejch
+
+Licensed under GNU GPL 2.0
+
+TagLib: taglib.github.io/
+Qt 4.8- (C) by Trolltech: http://qt-project.org/
+
+*/
+
+
 #ifndef PICTURESELECTION_H
 #define PICTURESELECTION_H
 

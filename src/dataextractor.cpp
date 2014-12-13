@@ -99,7 +99,7 @@ void DataExtractor::extractData() {
 
     if(editors->picture->isEnabled()) {
         TagLib::MPEG::File *mpegFile = new TagLib::MPEG::File(name);
-        TagLib::ID3v2::Tag *tag = mpegFile->ID3v2Tag();
+        TagLib::ID3v2::Tag *tag = mpegFile->ID3v2Tag(true);
         QImage image;
         TagLib::ID3v2::FrameList l = tag->frameList("APIC");
         if(l.isEmpty()) {
@@ -110,7 +110,7 @@ void DataExtractor::extractData() {
         }
 
         TagLib::ID3v2::AttachedPictureFrame *f =
-                static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
+               static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
         image.loadFromData((const uchar *) f->picture().data(), f->picture().size());
         image = image.scaled(100, 100);
         editors->image = &image;
