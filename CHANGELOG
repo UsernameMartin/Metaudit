@@ -6,3 +6,7 @@ v1.1.2 (12/4/2014): Added icon for Windows, the resolution of the window was fix
 
 v1.1.3 (12/5/2014): Bug fixed: Problems with localized paths
                     Fixed the size of the dialog which opens when saving data.
+                    
+v1.2 (12/13/2014): Added an option to edit pictures
+                    Added an option to edit comments
+                    Added a better icon
