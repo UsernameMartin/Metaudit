@@ -139,51 +139,54 @@ void saveFile(string stdPath, DataEditors* editors) {
         file.tag()->setComment(editors->comment->toPlainText().toStdString());
     file.save();
 
-    TagLib::MPEG::File mpegFile(name);
-    TagLib::ID3v2::Tag *tag = mpegFile.ID3v2Tag(true);
-    TagLib::ID3v2::AttachedPictureFrame *frame = new TagLib::ID3v2::AttachedPictureFrame;
-    QString picture = editors->picture->text();
-    if(picture == "<Attached picture>") {
+    if(editors->picture->isEnabled()) {
+        TagLib::MPEG::File mpegFile(name);
+        TagLib::ID3v2::Tag *tag = mpegFile.ID3v2Tag(true);
+        TagLib::ID3v2::AttachedPictureFrame *frame = new TagLib::ID3v2::AttachedPictureFrame;
+        QString picture = editors->picture->text();
+        if(picture == "<Attached picture>") {
 
-        TagLib::ID3v2::AttachedPictureFrame *f =
-                static_cast<TagLib::ID3v2::AttachedPictureFrame *>(editors->mpegFile->ID3v2Tag(true)->frameList("APIC").front());
-        frame->setMimeType(f->mimeType());
-        frame->setPicture(f->picture());
-        tag->removeFrames("APIC");
-        tag->addFrame(frame);
-        mpegFile.save();
+            TagLib::ID3v2::AttachedPictureFrame *f =
+                    static_cast<TagLib::ID3v2::AttachedPictureFrame *>(editors->mpegFile->ID3v2Tag(true)->frameList("APIC").front());
+            frame->setMimeType(f->mimeType());
+            frame->setPicture(f->picture());
+            tag->removeFrames("APIC");
+            tag->addFrame(frame);
+            mpegFile.save();
 
-    } else if(picture == "") {
+        } else if(picture == "") {
 
-        tag->removeFrames("APIC");
-        mpegFile.save();
+            tag->removeFrames("APIC");
+            mpegFile.save();
 
-    } else {
+        } else {
 
-        frame->setMimeType("image/jpeg");
-        string stdPic = picture.toStdString();
-        const char* charPicture = stdPic.c_str();
-        ifstream fileCheck(charPicture);
-        if(!fileCheck.good()) {
+            frame->setMimeType("image/jpeg");
+            string stdPic = picture.toStdString();
+            const char* charPicture = stdPic.c_str();
+            ifstream fileCheck(charPicture);
+            if(!fileCheck.good()) {
 
-            QWidget *w = new QWidget();
-            QLabel *l = new QLabel("Invalid picture!", w);
-            QPushButton *b = new QPushButton("OK", w);
-            QVBoxLayout *lay = new QVBoxLayout();
-            lay->addWidget(l);
-            lay->addWidget(b);
-            w->setLayout(lay);
-            QWidget::connect(b, SIGNAL(clicked()), w, SLOT(close()));
-            w->show();
-            delete w;
-            return;
+                QWidget *w = new QWidget();
+                QLabel *l = new QLabel("Invalid picture!", w);
+                QPushButton *b = new QPushButton("OK", w);
+                QVBoxLayout *lay = new QVBoxLayout();
+                lay->addWidget(l);
+                lay->addWidget(b);
+                w->setLayout(lay);
+                QWidget::connect(b, SIGNAL(clicked()), w, SLOT(close()));
+                w->show();
+                delete w;
+                return;
+            }
+
+            ImageFile imageTagLibFile(charPicture);
+            frame->setPicture(imageTagLibFile.data());
+            tag->removeFrames("APIC");
+            tag->addFrame(frame);
+            mpegFile.save();
+            
         }
-
-        ImageFile imageTagLibFile(charPicture);
-        frame->setPicture(imageTagLibFile.data());
-        tag->removeFrames("APIC");
-        tag->addFrame(frame);
-        mpegFile.save();
 
     }
 
